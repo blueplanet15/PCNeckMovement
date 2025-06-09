@@ -1,6 +1,7 @@
 using BepInEx;
+using Photon.Pun;
 
-namespace MyFirstPlugin
+namespace PCNeckMovement
 {
     [BepInPlugin(PluginInfo.GUID, PluginInfo.Name, PluginInfo.Version)]
     public class Plugin : BaseUnityPlugin
@@ -8,13 +9,14 @@ namespace MyFirstPlugin
         void Start()
         {
             GorillaTagger.OnPlayerSpawned(() => { GorillaTagger.Instance.offlineVRRig.head.overrideTarget = GorillaTagger.Instance.mainCamera.transform; });
+            PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable()
+            {
+                {
+                    PluginInfo.Name,
+                    PluginInfo.Version
+                }
+            }, null, null);
             Logger.LogInfo($"Plugin {PluginInfo.GUID} is laoded!");
-        }
-        internal class PluginInfo
-        {
-            public const string GUID = "com.BP15.PCNeckMovement";
-            public const string Name = "PCNeckMovement";
-            public const string Version = "1.0.0";
         }
     }
 }
